@@ -86,6 +86,9 @@ sam local generate-event apigateway aws-proxy
 
 # Delete the stack
 sam delete
+
+# Delete without confirmation prompt
+sam delete --no-prompts
 ```
 
 ## Testing
