@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  Stage:
+    Type: String
+    Default: prod
+    AllowedValues:
+      - dev
+      - prod
+
+Globals:
+  Function:
+    Environment:
+      Variables:
+        STAGE: !Ref Stage
+
+Resources:
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Environment:
+        Variables:
+          STAGE: !Ref Stage
+      Events:
+        HelloApi:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: get
+            RestApiId: !Ref HelloApi
+
+  HelloApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+
+Outputs:
+  ApiUrl:
+    Value: !Sub "https://${HelloApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/"
+  HelloFunctionArn:
+    Value: !GetAtt HelloFunction.Arn
+  HelloFunctionName:
+    Value: !Ref HelloFunction
+  Stage:
+    Value: !Ref Stage

@@ -1,0 +1,9 @@
+{
+  "httpMethod": "GET",
+  "path": "/hello",
+  "queryStringParameters": null,
+  "headers": {
+    "Accept": "application/json"
+  },
+  "body": null
+}
